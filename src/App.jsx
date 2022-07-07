@@ -16,13 +16,13 @@ const App = () => {
   const token = useToken("0x14acA962Aed91E82D9549b04c951155CfD13DB28");
   const vote = useVote("0xa9754dC4DBC31bB97AFEC7a24136819c10B3f304");
   
-  // State variable for us to know if user has our NFT.
-  const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
+// State variable for us to know if user has our NFT.
+const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
   
-    // isClaiming lets us easily keep a loading state while the NFT is minting.
-  const [isClaiming, setIsClaiming] = useState(false);
+// isClaiming lets us easily keep a loading state while the NFT is minting.
+const [isClaiming, setIsClaiming] = useState(false);
 
-    // Holds the amount of token each member has in state.
+// Holds the amount of token each member has in state.
 const [memberTokenAmounts, setMemberTokenAmounts] = useState([]);
 // The array holding all of our members addresses.
 const [memberAddresses, setMemberAddresses] = useState([]);
@@ -32,7 +32,7 @@ const shortenAddress = (str) => {
   return str.substring(0, 6) + "..." + str.substring(str.length - 4);
 };
 
-  const [proposals, setProposals] = useState([]);
+const [proposals, setProposals] = useState([]);
 const [isVoting, setIsVoting] = useState(false);
 const [hasVoted, setHasVoted] = useState(false);
 
@@ -167,7 +167,7 @@ useEffect(() => {
 }, [address, nftDrop]);
 
 //this function is run when a new user wants to mint an nft
-  const mintNft = async () => {
+const mintNft = async () => {
     try {
       setIsClaiming(true);
       await nftDrop.claim(1);
@@ -181,12 +181,12 @@ useEffect(() => {
     }
   };
 
-  if (address && (network?.[0].data.chain.id !== ChainId.Mumbai)) {
+if (address && (network?.[0].data.chain.id !== ChainId.Mumbai)) {
   return (
     <div className="unsupported-network">
-      <h2>Please connect to Mumbai</h2>
+      <h2>Please connect to polygon</h2>
       <p>
-        This dapp only works on the Mumbai network, please switch networks
+        This dapp only works on the Polygon network, please switch networks
         in your connected wallet.
       </p>
     </div>
@@ -195,13 +195,20 @@ useEffect(() => {
   
   // This is the case where the user hasn't connected their wallet
   // to your web app. Let them call connectWallet.
-  if (!address) {
+if (!address) {
     return (
       <div className="landing">
-        <h1>Welcome to WeavechainTestDAO</h1>
-        <button onClick={connectWithMetamask} className="btn-hero">
-          Connect your wallet
+        <div className="topbar">
+          <h2>Welcome to Weavechain DAO</h2>
+        </div>
+        <div className="centered card">
+          <h3>To enter the DAO and view the dashboard:</h3>
+          <p>1. Connect your Metamask wallet on Polygon Mainnet</p>
+          <p>2. Mint your membership NFT</p>
+        <button onClick={connectWithMetamask} className="standard">
+          Connect your (Metamask) wallet
         </button>
+        </div>
       </div>
     );
   }
@@ -210,12 +217,18 @@ useEffect(() => {
 // only DAO members will see this. Render all the members + token amounts.
 if (hasClaimedNFT) {
     return (
-      <div className="member-page">
-        <h1>WEV Member Page</h1>
-        <div>
-          <div>
+      <div>
+        <div className="topbar">
+            <h2>WEV Member Page</h2>
+            <button className="barbutton"><a href="https://github.com/aiosivas/weavechain-polygon-dao"><h2>Github</h2></a></button>
+          <div></div>
+            
+        </div>
+
+        <div >
+          <div className="card">
           <h2>Member List</h2>
-            <table className="card">
+            <table className="styled-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -236,8 +249,8 @@ if (hasClaimedNFT) {
               </tbody>
             </table>
           </div>
-          <div>
-            <h2>Active Proposals</h2>
+          <div className="card">
+            <h2>Proposals</h2>
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -326,7 +339,6 @@ if (hasClaimedNFT) {
                 }
               }}
             >
-              <button>Toggle Past Proposals</button>
               {proposals.map((proposal) => (
                 <div key={proposal.proposalId} className="card">
                   <h5>{proposal.description}</h5>
@@ -349,19 +361,13 @@ if (hasClaimedNFT) {
                   </div>
                 </div>
               ))}
-              <button disabled={isVoting || hasVoted} type="submit">
+              <button className="standard" disabled={isVoting || hasVoted} type="submit">
                 {isVoting
                   ? "Voting..."
                   : hasVoted
                     ? "You Already Voted"
                     : "Submit Votes"}
               </button>
-              {!hasVoted && (
-                <small>
-                  This will trigger multiple transactions that you will need to
-                  sign.
-                </small>
-              )}
             </form>
           </div>
         </div>
@@ -372,13 +378,20 @@ if (hasClaimedNFT) {
   // Render mint nft screen.
   return (
     <div className="mint-nft">
-      <h1>Mint your free 🍪DAO Membership NFT</h1>
-      <button
+      <div className="topbar">
+        <h2>Mint your DAO membership ID</h2>
+      </div>
+      <div className="centered card">
+          <h3>Wallet connected!</h3>
+          <p>Press the button to mint, accept the Metamask prompts,</p>
+          <p>wait a bit, and you're in!</p>
+                <button className="standard"
         disabled={isClaiming}
         onClick={mintNft}
       >
         {isClaiming ? "Minting..." : "Mint your nft"}
       </button>
+    </div>
     </div>
   );
 }
