@@ -1,11 +1,33 @@
-# buildspace x thirdweb - Build your own DAO with just Javascript
+# Thirdweb DAO
 
-### **Welcome 👋**
-To get started with this course, clone this repo and follow these commands:
-
+### **To clone**
+Clone this repo and follow these commands:
+Must have nodejs and npm
 1. Run `npm install` at the root of your directory
-2. Run `npm start` to start the project
-3. Start coding!
 
-### **Questions?**
-Have some questions make sure you head over to your [buildspace Dashboard](https://app.buildspace.so/projects/COb520aae3-7925-42f4-a5e7-eaf718933766) and link your Discord account so you can get access to helpful channels and your instructor!
+#### To run scripts
+Create .env file with 
+WALLET_ADDRESS=
+PRIVATE_KEY=
+ALCHEMY_API_URL=
+
+### To test (w/ Vite)
+npm run dev - preview
+npm run build - compile for production preview
+npm run serve - production preview
+
+### My build process from the ground up (make sure to read through scripts for fields unique to you, mostly addresses)
+Obtain metamask wallet info
+Create .env as seen above with desired network API key from alchemy
+Choose network iin index.jsx
+Deploy nft-drop script
+Batch upload numbered IDs from thirdweb dashboard, set claim conditions (unlimited wait time between mints)
+Deploy token script
+Print money script
+Deploy vote script
+Setup vote script
+
+
+
+
+
